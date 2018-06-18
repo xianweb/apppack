@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>APP打包技术 | Electron DOM File对象</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/apppack/assets/css/12.styles.14e45a2f.css" as="style"><link rel="preload" href="/apppack/assets/js/app.b5650545.js" as="script"><link rel="preload" href="/apppack/assets/js/2.4c252028.js" as="script"><link rel="prefetch" href="/apppack/assets/js/0.2e7d2ce9.js"><link rel="prefetch" href="/apppack/assets/js/1.e47463b7.js"><link rel="prefetch" href="/apppack/assets/js/3.d8000872.js"><link rel="prefetch" href="/apppack/assets/js/4.d79a3119.js"><link rel="prefetch" href="/apppack/assets/js/5.ab3c9604.js"><link rel="prefetch" href="/apppack/assets/js/6.dc718573.js"><link rel="prefetch" href="/apppack/assets/js/7.cbfd3f1a.js"><link rel="prefetch" href="/apppack/assets/js/8.9c9e5afc.js"><link rel="prefetch" href="/apppack/assets/js/9.2028b54c.js"><link rel="prefetch" href="/apppack/assets/js/10.76bbe728.js"><link rel="prefetch" href="/apppack/assets/js/11.db65f1df.js">
+    <link rel="stylesheet" href="/apppack/assets/css/12.styles.14e45a2f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/apppack/" class="home-link router-link-active"><!----><span class="site-name">
+      APP打包技术
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><div class="sidebar-group first collapsable"><p class="sidebar-heading"><span>移动APP打包</span><span class="arrow right"></span></p><!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading open"><span>桌面APP打包</span><span class="arrow down"></span></p><ul class="sidebar-group-items"><li><a href="/apppack/page1.html" class="sidebar-link">Electron概要</a></li><li><a href="/apppack/page2.html" class="sidebar-link">Electron应用打包</a></li><li><a href="/apppack/page3.html" class="sidebar-link">Electron BrowserWindow 模块</a></li><li><a href="/apppack/page4.html" class="sidebar-link">Electron ipcMain 模块</a></li><li><a href="/apppack/page5.html" class="sidebar-link">Electron ipcRenderer 模块</a></li><li><a href="/apppack/page6.html" class="sidebar-link">Electron menu 模块</a></li><li><a href="/apppack/page7.html" class="sidebar-link">Electron Tray 模块</a></li><li><a href="/apppack/page8.html" class="active sidebar-link">Electron DOM File对象</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/apppack/page8.html#file对象" class="sidebar-link">File对象</a></li></ul></li><li><a href="/apppack/page9.html" class="sidebar-link">electron-packager 打包</a></li><li><a href="/apppack/page10.html" class="sidebar-link">NSIS 打包</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="electron-dom-file对象"><a href="#electron-dom-file对象" aria-hidden="true" class="header-anchor">#</a> Electron DOM File对象</h1><h2 id="file对象"><a href="#file对象" aria-hidden="true" class="header-anchor">#</a> File对象</h2><p>为了让用户能够通过<code>HTML5</code>的<code>file API</code>直接操作本地文件，<code>DOM</code>的<code>File</code>接口提供了对本地文件的抽象。<code>Electron</code>在<code>File</code>接口中增加了一个<code>path</code>属性，它是文件在系统中的真实路径。</p><p>获取拖动到<code>APP</code>中文件的真实路径的例子：</p><p>渲染进程</p><pre class="language-html"><code><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Hello World!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">&gt;</span></span><span class="token style language-css">
+  <span class="token selector">#holder</span><span class="token punctuation">{</span>
+    <span class="token property">line-height</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #999<span class="token punctuation">;</span>
+    <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> #f5f5f5<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>holder<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+    把你要上传的文件拖动过来
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+    <span class="token keyword">var</span> holder <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'holder'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    holder<span class="token punctuation">.</span><span class="token function-variable function">ondragover</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    holder<span class="token punctuation">.</span>ondragleave <span class="token operator">=</span> holder<span class="token punctuation">.</span><span class="token function-variable function">ondragend</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    holder<span class="token punctuation">.</span><span class="token function-variable function">ondrop</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">var</span> file <span class="token operator">=</span> e<span class="token punctuation">.</span>dataTransfer<span class="token punctuation">.</span>files<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'文件列表'</span><span class="token punctuation">,</span> file<span class="token punctuation">.</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/apppack/page7.html" class="prev">
+          Electron Tray 模块
+        </a></span><span class="next"><a href="/apppack/page9.html">
+          electron-packager 打包
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/apppack/assets/js/2.4c252028.js" defer></script><script src="/apppack/assets/js/app.b5650545.js" defer></script>
+  </body>
+</html>

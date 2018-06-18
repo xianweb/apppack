@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>APP打包技术 | Electron Tray 模块</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/apppack/assets/css/12.styles.14e45a2f.css" as="style"><link rel="preload" href="/apppack/assets/js/app.b5650545.js" as="script"><link rel="preload" href="/apppack/assets/js/3.d8000872.js" as="script"><link rel="prefetch" href="/apppack/assets/js/0.2e7d2ce9.js"><link rel="prefetch" href="/apppack/assets/js/1.e47463b7.js"><link rel="prefetch" href="/apppack/assets/js/2.4c252028.js"><link rel="prefetch" href="/apppack/assets/js/4.d79a3119.js"><link rel="prefetch" href="/apppack/assets/js/5.ab3c9604.js"><link rel="prefetch" href="/apppack/assets/js/6.dc718573.js"><link rel="prefetch" href="/apppack/assets/js/7.cbfd3f1a.js"><link rel="prefetch" href="/apppack/assets/js/8.9c9e5afc.js"><link rel="prefetch" href="/apppack/assets/js/9.2028b54c.js"><link rel="prefetch" href="/apppack/assets/js/10.76bbe728.js"><link rel="prefetch" href="/apppack/assets/js/11.db65f1df.js">
+    <link rel="stylesheet" href="/apppack/assets/css/12.styles.14e45a2f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/apppack/" class="home-link router-link-active"><!----><span class="site-name">
+      APP打包技术
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><div class="sidebar-group first collapsable"><p class="sidebar-heading"><span>移动APP打包</span><span class="arrow right"></span></p><!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading open"><span>桌面APP打包</span><span class="arrow down"></span></p><ul class="sidebar-group-items"><li><a href="/apppack/page1.html" class="sidebar-link">Electron概要</a></li><li><a href="/apppack/page2.html" class="sidebar-link">Electron应用打包</a></li><li><a href="/apppack/page3.html" class="sidebar-link">Electron BrowserWindow 模块</a></li><li><a href="/apppack/page4.html" class="sidebar-link">Electron ipcMain 模块</a></li><li><a href="/apppack/page5.html" class="sidebar-link">Electron ipcRenderer 模块</a></li><li><a href="/apppack/page6.html" class="sidebar-link">Electron menu 模块</a></li><li><a href="/apppack/page7.html" class="active sidebar-link">Electron Tray 模块</a></li><li><a href="/apppack/page8.html" class="sidebar-link">Electron DOM File对象</a></li><li><a href="/apppack/page9.html" class="sidebar-link">electron-packager 打包</a></li><li><a href="/apppack/page10.html" class="sidebar-link">NSIS 打包</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="electron-tray-模块"><a href="#electron-tray-模块" aria-hidden="true" class="header-anchor">#</a> Electron Tray 模块</h1><p>用一个 <code>Tray</code> 来表示一个图标，这个图标处于正在运行的系统的通知区，通常被添加到一个 <code>context menu</code> 上。</p><p><img src="/apppack/assets/img/electron3.3391709d.png" alt></p><p>示例代码</p><pre class="language-js"><code><span class="token comment">//主进程</span>
+<span class="token keyword">const</span> electron <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> electron<span class="token punctuation">.</span>app<span class="token punctuation">;</span>
+<span class="token keyword">const</span> Menu <span class="token operator">=</span> electron<span class="token punctuation">.</span>Menu<span class="token punctuation">;</span>
+<span class="token keyword">const</span> Tray <span class="token operator">=</span> electron<span class="token punctuation">.</span>Tray<span class="token punctuation">;</span>
+<span class="token keyword">const</span> BrowserWindow <span class="token operator">=</span> electron<span class="token punctuation">.</span>BrowserWindow<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> mainWindow <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'window-all-closed'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">!=</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    app<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'ready'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  mainWindow <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> width<span class="token punctuation">:</span> <span class="token number">800</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">600</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  mainWindow<span class="token punctuation">.</span><span class="token function">loadURL</span><span class="token punctuation">(</span><span class="token string">'file://'</span> <span class="token operator">+</span> __dirname <span class="token operator">+</span> <span class="token string">'/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  mainWindow<span class="token punctuation">.</span><span class="token function">openDevTools</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  mainWindow<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'closed'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    mainWindow <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">//系统托盘</span>
+  <span class="token keyword">let</span> trayMenuTemp <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>label<span class="token punctuation">:</span> <span class="token string">'设置'</span><span class="token punctuation">,</span> click<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>label<span class="token punctuation">:</span> <span class="token string">'意见反馈'</span><span class="token punctuation">,</span> click<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>label<span class="token punctuation">:</span> <span class="token string">'退出'</span><span class="token punctuation">,</span> click<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> app<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> appTray <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Tray</span><span class="token punctuation">(</span><span class="token string">'app.ico'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> contextMenu <span class="token operator">=</span> Menu<span class="token punctuation">.</span><span class="token function">buildFromTemplate</span><span class="token punctuation">(</span>trayMenuTemp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  appTray<span class="token punctuation">.</span><span class="token function">setToolTip</span><span class="token punctuation">(</span><span class="token string">'思诚系统'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  appTray<span class="token punctuation">.</span><span class="token function">setContextMenu</span><span class="token punctuation">(</span>contextMenu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  appTray<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&quot;click&quot;</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    mainWindow<span class="token punctuation">.</span><span class="token function">isVisible</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> mainWindow<span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> mainWindow<span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/apppack/page6.html" class="prev">
+          Electron menu 模块
+        </a></span><span class="next"><a href="/apppack/page8.html">
+          Electron DOM File对象
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/apppack/assets/js/3.d8000872.js" defer></script><script src="/apppack/assets/js/app.b5650545.js" defer></script>
+  </body>
+</html>

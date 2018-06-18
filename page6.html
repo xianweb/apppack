@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>APP打包技术 | Electron menu 模块</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/apppack/assets/css/12.styles.14e45a2f.css" as="style"><link rel="preload" href="/apppack/assets/js/app.b5650545.js" as="script"><link rel="preload" href="/apppack/assets/js/4.d79a3119.js" as="script"><link rel="prefetch" href="/apppack/assets/js/0.2e7d2ce9.js"><link rel="prefetch" href="/apppack/assets/js/1.e47463b7.js"><link rel="prefetch" href="/apppack/assets/js/2.4c252028.js"><link rel="prefetch" href="/apppack/assets/js/3.d8000872.js"><link rel="prefetch" href="/apppack/assets/js/5.ab3c9604.js"><link rel="prefetch" href="/apppack/assets/js/6.dc718573.js"><link rel="prefetch" href="/apppack/assets/js/7.cbfd3f1a.js"><link rel="prefetch" href="/apppack/assets/js/8.9c9e5afc.js"><link rel="prefetch" href="/apppack/assets/js/9.2028b54c.js"><link rel="prefetch" href="/apppack/assets/js/10.76bbe728.js"><link rel="prefetch" href="/apppack/assets/js/11.db65f1df.js">
+    <link rel="stylesheet" href="/apppack/assets/css/12.styles.14e45a2f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/apppack/" class="home-link router-link-active"><!----><span class="site-name">
+      APP打包技术
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><div class="sidebar-group first collapsable"><p class="sidebar-heading"><span>移动APP打包</span><span class="arrow right"></span></p><!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading open"><span>桌面APP打包</span><span class="arrow down"></span></p><ul class="sidebar-group-items"><li><a href="/apppack/page1.html" class="sidebar-link">Electron概要</a></li><li><a href="/apppack/page2.html" class="sidebar-link">Electron应用打包</a></li><li><a href="/apppack/page3.html" class="sidebar-link">Electron BrowserWindow 模块</a></li><li><a href="/apppack/page4.html" class="sidebar-link">Electron ipcMain 模块</a></li><li><a href="/apppack/page5.html" class="sidebar-link">Electron ipcRenderer 模块</a></li><li><a href="/apppack/page6.html" class="active sidebar-link">Electron menu 模块</a></li><li><a href="/apppack/page7.html" class="sidebar-link">Electron Tray 模块</a></li><li><a href="/apppack/page8.html" class="sidebar-link">Electron DOM File对象</a></li><li><a href="/apppack/page9.html" class="sidebar-link">electron-packager 打包</a></li><li><a href="/apppack/page10.html" class="sidebar-link">NSIS 打包</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="electron-menu-模块"><a href="#electron-menu-模块" aria-hidden="true" class="header-anchor">#</a> Electron menu 模块</h1><p><code>menu</code> 类可以用来创建<strong>原生菜单</strong>，它可用作<strong>应用菜单</strong>和 <code>context</code>（上下文，意为右键）菜单。</p><p>这个模块是一个主进程的模块，并且可以通过 <code>remote</code> 模块给渲染进程调用.</p><p>每个菜单有一个或几个菜单项 <code>menu items</code>，并且每个菜单项可以有子菜单。</p><p>下面这个例子是在网页(渲染进程)中通过 <code>remote</code> 模块动态创建的菜单，并且<strong>右键</strong>显示：</p><p><img src="data:image/png;base64,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" alt></p><pre class="language-js"><code><span class="token keyword">const</span> remote <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>remote<span class="token punctuation">;</span>
+<span class="token keyword">const</span> Menu <span class="token operator">=</span> remote<span class="token punctuation">.</span>Menu<span class="token punctuation">;</span>
+<span class="token keyword">const</span> MenuItem <span class="token operator">=</span> remote<span class="token punctuation">.</span>MenuItem<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> menu <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Menu</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+menu<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MenuItem</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    label<span class="token punctuation">:</span> <span class="token string">'右键菜单一'</span><span class="token punctuation">,</span>
+    click<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span> 
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'item 1 clicked'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>   
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+menu<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MenuItem</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'separator'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+menu<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MenuItem</span><span class="token punctuation">(</span><span class="token punctuation">{</span> label<span class="token punctuation">:</span> <span class="token string">'右键菜单二'</span><span class="token punctuation">,</span> type<span class="token punctuation">:</span> <span class="token string">'checkbox'</span><span class="token punctuation">,</span> checked<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'contextmenu'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+e<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+menu<span class="token punctuation">.</span><span class="token function">popup</span><span class="token punctuation">(</span>remote<span class="token punctuation">.</span><span class="token function">getCurrentWindow</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>例子，在<strong>渲染进程</strong>中使用模板api创建<strong>应用菜单</strong>：</p><p><img src="/apppack/assets/img/electron2.d0f15e82.png" alt></p><pre class="language-js"><code><span class="token keyword">const</span> remote <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>remote<span class="token punctuation">;</span>
+<span class="token keyword">const</span> Menu <span class="token operator">=</span> remote<span class="token punctuation">.</span>Menu<span class="token punctuation">;</span>
+<span class="token keyword">const</span> MenuItem <span class="token operator">=</span> remote<span class="token punctuation">.</span>MenuItem<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> template <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    label<span class="token punctuation">:</span> <span class="token string">'编辑'</span><span class="token punctuation">,</span>
+    submenu<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'还原'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+Z'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'undo'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'撤销'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'Shift+CmdOrCtrl+Z'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'redo'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> <span class="token string">'separator'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'剪切'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+X'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'cut'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'复制'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+C'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'copy'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'粘贴'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+V'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'paste'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'全选'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+A'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'selectall'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    label<span class="token punctuation">:</span> <span class="token string">'视图'</span><span class="token punctuation">,</span>
+    submenu<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'刷新'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+R'</span><span class="token punctuation">,</span>
+        click<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> focusedWindow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>focusedWindow<span class="token punctuation">)</span>
+            focusedWindow<span class="token punctuation">.</span><span class="token function">reload</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'切换全屏'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">==</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token string">'Ctrl+Command+F'</span><span class="token punctuation">;</span>
+          <span class="token keyword">else</span>
+            <span class="token keyword">return</span> <span class="token string">'F11'</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        click<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> focusedWindow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>focusedWindow<span class="token punctuation">)</span>
+            focusedWindow<span class="token punctuation">.</span><span class="token function">setFullScreen</span><span class="token punctuation">(</span><span class="token operator">!</span>focusedWindow<span class="token punctuation">.</span><span class="token function">isFullScreen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'开发工具'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">==</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token string">'Alt+Command+I'</span><span class="token punctuation">;</span>
+          <span class="token keyword">else</span>
+            <span class="token keyword">return</span> <span class="token string">'Ctrl+Shift+I'</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        click<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> focusedWindow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>focusedWindow<span class="token punctuation">)</span>
+            focusedWindow<span class="token punctuation">.</span><span class="token function">toggleDevTools</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    label<span class="token punctuation">:</span> <span class="token string">'窗口'</span><span class="token punctuation">,</span>
+    role<span class="token punctuation">:</span> <span class="token string">'window'</span><span class="token punctuation">,</span>
+    submenu<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'最小化'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+M'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'minimize'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'关闭'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'CmdOrCtrl+W'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'close'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    label<span class="token punctuation">:</span> <span class="token string">'帮助'</span><span class="token punctuation">,</span>
+    role<span class="token punctuation">:</span> <span class="token string">'help'</span><span class="token punctuation">,</span>
+    submenu<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'学习更多'</span><span class="token punctuation">,</span>
+        click<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>shell<span class="token punctuation">.</span><span class="token function">openExternal</span><span class="token punctuation">(</span><span class="token string">'http://electron.atom.io'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>process<span class="token punctuation">.</span>platform <span class="token operator">==</span> <span class="token string">'darwin'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>remote<span class="token punctuation">.</span>app<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  template<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    label<span class="token punctuation">:</span> name<span class="token punctuation">,</span>
+    submenu<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'关于 '</span> <span class="token operator">+</span> name<span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'about'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> <span class="token string">'separator'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'服务'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'services'</span><span class="token punctuation">,</span>
+        submenu<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> <span class="token string">'separator'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'隐藏 '</span> <span class="token operator">+</span> name<span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'Command+H'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'hide'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'隐藏其他'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'Command+Alt+H'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'hideothers'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'显示全部'</span><span class="token punctuation">,</span>
+        role<span class="token punctuation">:</span> <span class="token string">'unhide'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        type<span class="token punctuation">:</span> <span class="token string">'separator'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        label<span class="token punctuation">:</span> <span class="token string">'退出'</span><span class="token punctuation">,</span>
+        accelerator<span class="token punctuation">:</span> <span class="token string">'Command+Q'</span><span class="token punctuation">,</span>
+        click<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> app<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// Window menu.</span>
+  template<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span>submenu<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>
+    <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> <span class="token string">'separator'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      label<span class="token punctuation">:</span> <span class="token string">'切换到前台'</span><span class="token punctuation">,</span>
+      role<span class="token punctuation">:</span> <span class="token string">'front'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> menu <span class="token operator">=</span> Menu<span class="token punctuation">.</span><span class="token function">buildFromTemplate</span><span class="token punctuation">(</span>template<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Menu<span class="token punctuation">.</span><span class="token function">setApplicationMenu</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/apppack/page5.html" class="prev">
+          Electron ipcRenderer 模块
+        </a></span><span class="next"><a href="/apppack/page7.html">
+          Electron Tray 模块
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/apppack/assets/js/4.d79a3119.js" defer></script><script src="/apppack/assets/js/app.b5650545.js" defer></script>
+  </body>
+</html>
